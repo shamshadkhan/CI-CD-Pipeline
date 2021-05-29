@@ -1,0 +1,78 @@
+version: '3'
+services:
+  rabbitmq:
+    image: 'rabbitmq:3.6.6-management'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: rabbitmq
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5  
+  service_httpserv:
+    build:
+      context: ./service_httpserv/
+      dockerfile: Dockerfile
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    ports:
+      - "8080:3000"
+    networks:
+      - default
+    volumes:
+      - app-volume:/httpserv/app
+  service_intermediate:
+    build:
+      context: ./service_intermediate/
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    networks:
+      - default
+    command: ["/intermediate/wait-for-it.sh", "rabbitmq:5672", "-t", "0", "--", "node", "service_intermediate.js"]
+  service_observer:
+    build:
+      context: ./service_observer/
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    networks:
+      - default
+    volumes:
+      - app-volume:/observer/app
+    command: ["/observer/wait-for-it.sh", "rabbitmq:5672", "-t", "0", "--", "node", "service_observer.js"]
+  service_original:
+    build:
+      context: ./service_original/
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    networks:
+      - default
+    command: ["/original/wait-for-it.sh", "rabbitmq:5672", "-t", "0", "--", "node", "service_original.js"]
+  service_api:
+    build:
+      context: ./service_api/
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    ports:
+      - "8081:8081"
+    networks:
+      - default
+    command: ["/api/wait-for-it.sh", "rabbitmq:5672", "-t", "0", "--", "node", "service_api.js"]
+volumes:
+  app-volume:

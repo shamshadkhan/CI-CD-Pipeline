@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  gitlab-web:
+    network_mode: gitlab-network
+    image: 'gitlab/gitlab-ce:latest'
+    hostname: 'gitlab-web'
+    container_name: gitlab-web
+    ports:
+      - '2222:22'
+      - '8085:80'
+      - '443:443'
+      - '4567:4567'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['initial_root_password'] = '${INITIAL_ROOT_PASSWORD}'
+        gitlab_rails['initial_shared_runners_registration_token'] = '${INITIAL_RUNNER_TOKEN}'
+        registry_external_url 'http://localhost:4567'
+        registry['enable'] = true
+        unicorn['socket'] = '/opt/gitlab/var/unicorn/gitlab.socket'
+  gitlabci-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlabci-runner
+    hostname: gitlabci-runner
+    depends_on:
+      - gitlab-web
+    volumes:    
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './runner-config:/etc/gitlab-runner:Z'
+    network_mode: gitlab-network
+  

@@ -1,0 +1,38 @@
+{
+  "name": "ex2",
+  "version": "1.0.0",
+  "description": "Exercise 2 material",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "start": "nodemon index.js",
+    "eslint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "amqp": "^0.2.7",
+    "amqp-mock": "^0.1.4-1",
+    "amqplib": "^0.6.0",
+    "axios": "^0.21.0",
+    "chai": "*",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.14.0",
+    "istanbul": "^0.4.5",
+    "method-override": "^3.0.0",
+    "mocha": "*",
+    "nock": "^13.0.5",
+    "portscanner": "^2.2.0",
+    "request": "^2.88.2",
+    "sinon": "^9.2.1",
+    "sinon-chai": "^3.5.0",
+    "store": "^2.0.12",
+    "supertest": "^6.0.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6"
+  }
+}

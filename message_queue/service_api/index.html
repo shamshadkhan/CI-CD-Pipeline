@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Api Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    //listen to running button clicked
+    $("#run").click(function (e) {
+            $.ajax({
+                type: "PUT",
+                url: "/state?data=RUNNING",
+                dataType: "text",
+                success: function (result, status, xhr) {
+                    console.log("success");
+                    $("h6").html("RUNNING");
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+    });
+    //listen to paused button clicked
+    $("#pause").click(function (e) {
+            $.ajax({
+                type: "PUT",
+                url: "/state?data=PAUSED",
+                dataType: "text",
+                success: function (result, status, xhr) {
+                    console.log("success");
+                    $("h6").html("PAUSED");
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+    });
+    //listen to shutdown button clicked
+    $("#shutdown").click(function (e) {
+            $.ajax({
+                type: "PUT",
+                url: "/state?data=SHUTDOWN",
+                dataType: "text",
+                success: function (result, status, xhr) {
+                    console.log("success");
+                    $("h6").html("SHUTDOWN");
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+    });
+    //listen to init button clicked
+    $("#init").click(function (e) {
+            $.ajax({
+                type: "PUT",
+                url: "/state?data=INIT",
+                dataType: "text",
+                success: function (result, status, xhr) {
+                    console.log("success");
+                    $("h6").html("INIT");
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+    });
+  
+});
+</script>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <!-- list of get api-->
+          <li><a href="/messages" target="_blank">GET/messages</a></li>
+          <li><a href="/run-log" target="_blank">GET/run-log</a></li>
+          <li><a href="/state" target="_blank">GET/state</a></li>
+          <li><a href="/node-statistic" target="_blank">GET/node-statistic</a></li>
+          <li><a href="/queue-statistic" target="_blank">GET/queue-statistic</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>Front Page</h1>
+      <h6></h6>
+      <!-- list of put api-->
+      <button id="pause">CHANGE STATE TO PAUSED</button>
+      <button id="run">CHANGE STATE TO RUNNING</button>
+      <button id="shutdown">CHANGE STATE TO SHUTDOWN</button>
+      <button id="init">CHANGE STATE TO INIT</button>
+    </main>
+    
+    <footer>
+      <p>Copyright &copy; 2020</p>
+    </footer>
+  </body>
+  
+</html>
