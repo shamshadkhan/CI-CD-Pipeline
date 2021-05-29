@@ -1,9 +1,11 @@
-Below is some information regarding pipeline project
+# Introduction
+In software engineering, CI/CD or CICD generally refers to the combined practices of continuous integration and either continuous delivery or continuous deployment. CI/CD bridges 
+the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. The system CI pipeline contains four stages. Each stage is assigned to job as described as below 
+- build: this job basically builds the application and brings the application live
+- test: this job tests the mandatory api gateway using mocha chai and mock api. This job requires installing npm package and running npm test to test the api.
+- eslint: this job performs static analysis on the whole application. This job require installing eslint and running npx eslint for each container.
+- deploy: finally deploy the system locally.
 
-1. The folder contains both gitlabci settings in root
-2. message_queue application files and related pipeline settings in message_queue folder
-3. EndReport.pdf file with details instruction.
-4. The below optional api and features has been implemented
-    - GET/node-statistic
-    - GET/queue-statistic
-    - Static analysis
+# Results
+CI/CD Result
+![CICD Diagram](/CICD.png "CICD Diagram")
