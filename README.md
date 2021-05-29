@@ -8,4 +8,5 @@ the gaps between development and operation activities and teams by enforcing aut
 
 # Results
 CI/CD Result
+
 ![CICD Diagram](CICD.PNG "CICD Diagram")
